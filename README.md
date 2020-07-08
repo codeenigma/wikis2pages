@@ -41,7 +41,7 @@ You'll need to manually clone the wiki to the location specified as the "dest" i
 From the root of the repo:
 ```
 cd content
-git clone git@git.codeenigma.com:code-enigma/documentation/developer-reference.wiki.git
+git clone git@git.codeenigma.com:code-enigma/documentation/design-and-frontend-reference.wiki.git
 ```
 
 ## 3. Initialize the wiki configuration.
@@ -52,5 +52,17 @@ Simply call `ce-dev deploy`. You can then access the generated content with `ce-
 Simply create a matching .yml file under ce-dev/ansible/wikis
 
 ## Known issues and limitations
-Gitlab wikis lets you references pages in link by name instead of file path, and interpolates them at rendering time.
+Gitlab wikis lets you references pages in relative link by name instead of file path, and interpolates them at rendering time.
+Eg:
 
+```
+[We are...](We are...)
+```
+Is a valid link in Gitlab's wiki syntax and will "magically" be transformed to /we-are.md in the href.
+
+However, this is not possible with Hugo, and all links need to be standardized:
+
+```
+[We are...](we-are)
+```
+This ensures they will work in both places.
