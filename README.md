@@ -56,13 +56,13 @@ Gitlab wikis lets you references pages in relative link by name instead of file 
 Eg:
 
 ```
-[We are...](We are...)
+[We are Code Enigma](We are Code Enigma)
 ```
-Is a valid link in Gitlab's wiki syntax and will "magically" be transformed to /we-are.md in the href.
+Is a valid link in Gitlab's wiki syntax and will "magically" be transformed to /we-are-code-enigma in the href (and we-are-code-enigma.md in the background).
 
 However, this is not possible with Hugo, and all links need to be standardized:
 
 ```
-[We are...](we-are)
+[We are...](we-are-code-enigma)
 ```
 This ensures they will work in both places.
