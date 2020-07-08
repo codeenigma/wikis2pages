@@ -1,0 +1,16 @@
+version: "3.7"
+x-ce_dev:
+  registry: localhost:5000
+  project_name: pages
+  urls:
+    - http://pages-jekyll:4000/home
+  provision: 
+    - ce-dev/ansible/provision.yml
+  deploy: 
+    - ce-dev/ansible/deploy.yml
+services:
+  jekyll:
+    image: codeenigma/ce-dev-1.x:latest
+    x-ce_dev: {}
+    expose: 
+      - 4000

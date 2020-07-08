@@ -1,0 +1,4 @@
+wiki:
+  src: git@git.codeenigma.com:code-enigma/documentation/design-and-frontend-reference.wiki.git
+  dest: content/design-and-frontend-reference.wiki
+  title: Design and frontend reference

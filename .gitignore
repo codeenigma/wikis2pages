@@ -1,0 +1,5 @@
+resources
+public
+config.toml
+content/*
+!content/.gitkeep

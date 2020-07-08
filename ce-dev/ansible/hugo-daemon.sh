@@ -1,0 +1,28 @@
+#!/bin/sh
+
+if [ "$1" != "stop" ] && [ "$1" != "start" ]; then
+  echo "Usage:"
+  echo "$0 stop|start"
+  echo "Optionally pass --detach as the second argument to run in the background"
+  exit 1
+fi
+
+# Kill in any case.
+# shellcheck disable=SC2009
+# shellcheck disable=SC2126
+if [ "$(ps aux | grep "/usr/local/bin/[h]ugo" | wc -l)" = "1" ]; then
+  kill "$(pgrep "hugo" -o)"
+fi
+
+if [ "$1" = "stop" ]; then
+  exit 0
+fi
+
+# Start.
+cd /home/ce-dev/deploy/live.local || exit 1
+HUGO_CMD="/usr/local/bin/hugo serve --bind 0.0.0.0 --port 4000"
+if [ "$2" = "--detach" ]; then
+  $HUGO_CMD &
+else
+  $HUGO_CMD
+fi

@@ -1,0 +1,41 @@
+version: '3.7'
+services:
+  pages-jekyll:
+    image: 'codeenigma/ce-dev-1.x:latest'
+    expose:
+      - 4000
+      - '22'
+    networks:
+      ce_dev:
+        aliases: []
+    volumes:
+      - 'ce_dev_ssh:/home/ce-dev/.ssh'
+      - '/sys/fs/cgroup:/sys/fs/cgroup:ro'
+      - /var/log
+      - /var/cache
+      - /var/backups
+      - /var/tmp
+      - /var/spool
+      - /var/mail
+      - 'ce_dev_apt_cache:/var/cache/apt/archives'
+      - 'ce_dev_composer_cache:/home/ce-dev/.composer/cache'
+      - 'ce_dev_nvm_node:/home/ce-dev/.nvm/versions/node'
+      - '../:/.x-ce-dev:delegated'
+    container_name: pages-jekyll
+    hostname: pages-jekyll
+    cap_add:
+      - SYS_ADMIN
+networks:
+  ce_dev:
+    name: ce_dev
+    driver: bridge
+    external: true
+volumes:
+  ce_dev_ssh:
+    external: true
+  ce_dev_apt_cache:
+    external: true
+  ce_dev_composer_cache:
+    external: true
+  ce_dev_nvm_node:
+    external: true

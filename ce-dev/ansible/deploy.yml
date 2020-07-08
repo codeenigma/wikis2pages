@@ -1,0 +1,15 @@
+- hosts: pages-jekyll
+
+  vars_files:
+    - wikis/current.yml
+
+  tasks:
+
+    - name: Generate config file.
+      template:
+        src: config.toml.j2
+        dest: /home/ce-dev/deploy/live.local/config.toml
+
+    - name: Start hugo.
+      command:
+        cmd: /opt/hugo-daemon.sh start --detach
