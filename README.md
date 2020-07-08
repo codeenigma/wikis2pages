@@ -6,6 +6,15 @@ This is a static generator using Hugo to transform Gitlab's wiki pages into a st
 You will need https://github.com/codeenigma/ce-dev (which relies on Docker and Docker Compose).
 
 # Initial setup
+
+Clone this repository, and run the following steps from the repo root.
+
+```
+git clone git@git.codeenigma.com:code-enigma/wikis2pages.git
+cd wikis2pages
+```
+
+
 - Create the initial configuration: `ce-dev init`
 - Start the containers: `ce-dev start`
 - Install: `ce-dev provision`
