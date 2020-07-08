@@ -39,3 +39,5 @@ git clone git@git.codeenigma.com:code-enigma/documentation/developer-reference.w
 
 Simply call `ce-dev deploy`. You can then access the generated content with `ce-dev browse`
 
+# Adding a new wiki
+Simply create a matching .yml file under ce-dev/ansible/wikis
