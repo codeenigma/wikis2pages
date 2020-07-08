@@ -22,7 +22,7 @@ cd ce-dev/ansible/wikis
 ln -s ./design-and-frontend-reference.yml current.yml
 ```
 
-*** The symlink MUST be relative, to function within the container ***
+**The symlink MUST be relative, to function within the container**
 
 
 ## 2. Clone the wiki content
@@ -39,5 +39,9 @@ git clone git@git.codeenigma.com:code-enigma/documentation/developer-reference.w
 
 Simply call `ce-dev deploy`. You can then access the generated content with `ce-dev browse`
 
-# Adding a new wiki
+## Adding a new wiki
 Simply create a matching .yml file under ce-dev/ansible/wikis
+
+## Known issues and limitations
+Gitlab wikis lets you references pages in link by name instead of file path, and interpolates them at rendering time.
+
