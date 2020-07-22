@@ -1,4 +1,6 @@
 wiki:
   src: git@git.codeenigma.com:code-enigma/documentation/developer-reference.wiki.git
-  dest: content/developer-reference.wiki
+  dest: developer-reference.wiki
+  branch: master
+  subdir: ''
   title: Developer reference

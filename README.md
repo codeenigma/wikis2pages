@@ -15,9 +15,9 @@ cd wikis2pages
 ```
 
 
-- Create the initial configuration: `ce-dev init`
-- Start the containers: `ce-dev start`
-- Install: `ce-dev provision`
+1. Create the initial configuration: `ce-dev init`. This will prompt you for SSH credentials in order to clone the wikis later.
+2. Start the containers: `ce-dev start`
+3. Install: `ce-dev provision`
 
 # Initialising a wiki
 
@@ -33,18 +33,7 @@ ln -s ./design-and-frontend-reference.yml current.yml
 
 **The symlink MUST be relative, to function within the container**
 
-
-## 2. Clone the wiki content
-
-You'll need to manually clone the wiki to the location specified as the "dest" in the matching .yml file, under content. *Due to SSH access restrictions from within the container, this can't yet be automated.*
-
-From the root of the repo:
-```
-cd content
-git clone git@git.codeenigma.com:code-enigma/documentation/design-and-frontend-reference.wiki.git
-```
-
-## 3. Initialize the wiki configuration.
+## 2. Initialize the wiki configuration.
 
 Simply call `ce-dev deploy`. You can then access the generated content with `ce-dev browse`
 

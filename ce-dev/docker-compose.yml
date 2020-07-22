@@ -1,14 +1,12 @@
 version: '3.7'
 services:
-  pages-jekyll:
+  wikis2pages-hugo:
     image: 'codeenigma/ce-dev-1.x:latest'
     expose:
       - 4000
       - '22'
-    networks:
-      ce_dev:
-        aliases: []
     volumes:
+      - '../:/home/ce-dev/deploy/live.local'
       - 'ce_dev_ssh:/home/ce-dev/.ssh'
       - '/sys/fs/cgroup:/sys/fs/cgroup:ro'
       - /var/log
@@ -20,9 +18,13 @@ services:
       - 'ce_dev_apt_cache:/var/cache/apt/archives'
       - 'ce_dev_composer_cache:/home/ce-dev/.composer/cache'
       - 'ce_dev_nvm_node:/home/ce-dev/.nvm/versions/node'
-      - '../:/.x-ce-dev:delegated'
-    container_name: pages-jekyll
-    hostname: pages-jekyll
+      - 'ce_dev_mkcert:/home/ce-dev/.local/share/mkcert'
+    networks:
+      ce_dev:
+        aliases: []
+        ipv4_address: 172.18.0.63
+    container_name: wikis2pages-hugo
+    hostname: wikis2pages-hugo
     cap_add:
       - SYS_ADMIN
 networks:
@@ -38,4 +40,6 @@ volumes:
   ce_dev_composer_cache:
     external: true
   ce_dev_nvm_node:
+    external: true
+  ce_dev_mkcert:
     external: true

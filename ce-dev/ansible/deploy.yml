@@ -1,9 +1,16 @@
-- hosts: pages-jekyll
-
+- hosts: wikis2pages-hugo
+  
   vars_files:
     - wikis/current.yml
 
   tasks:
+
+    - name: Clone remote wiki.
+      git:
+        dest: "/home/ce-dev/deploy/live.local/content/{{ wiki.dest }}"
+        repo: "{{ wiki.src }}"
+        version: "{{ wiki.branch }}"
+        accept_hostkey: yes
 
     - name: Generate config file.
       template:

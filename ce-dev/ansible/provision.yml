@@ -1,6 +1,4 @@
----
-
-- hosts: pages-jekyll
+- hosts: wikis2pages-hugo
   become: yes
   tasks:
 
