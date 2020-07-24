@@ -52,6 +52,6 @@ Is a valid link in Gitlab's wiki syntax and will "magically" be transformed to /
 However, this is not possible with Hugo, and all links need to be standardized:
 
 ```
-[We are...](we-are-code-enigma)
+[We are Code Enigma](we-are-code-enigma)
 ```
 This ensures they will work in both places.

@@ -1,4 +1,6 @@
-baseURL = "http://pages-jekyll:4000"
+baseURL = "{{ wiki.base_url }}"
 languageCode = "en-us"
 title = "{{ wiki.title }}"
 contentDir = "content/{{ [wiki.dest, wiki.subdir] | join('/') }}"
+archetypeDir = "archetypes/{{ wiki.type }}"
+layoutDir = "layouts/{{ wiki.type }}"

@@ -4,3 +4,4 @@ wiki:
   branch: master
   subdir: ''
   title: Developer reference
+  type: basic

@@ -4,3 +4,4 @@ wiki:
   branch: master
   subdir: ''
   title: Design and frontend reference
+  type: basic

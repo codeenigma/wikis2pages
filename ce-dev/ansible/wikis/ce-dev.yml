@@ -1,0 +1,8 @@
+wiki:
+  src: https://github.com/codeenigma/ce-dev.git
+  dest: ce-dev
+  branch: master
+  subdir: docs
+  title: ce-dev
+  type: doc
+  base_url: https://pm98zz-c.github.io/test-doc

@@ -1,0 +1,11 @@
+{{ define "main" }}
+    {{- partial "header.html" . -}}
+    <article>
+        {{ .Content }}
+    </article>
+    <aside>
+        {{ .TableOfContents }}
+    </aside>
+    {{- partial "menu.html" . -}}
+    {{- partial "footer.html" . -}}
+{{ end }}
