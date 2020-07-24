@@ -13,7 +13,7 @@ body {
   --default-color-light: #4479FF;
   --default-color-menu: #1d0d6e;
   --default-gradient: linear-gradient(-180deg, #4479FF 0%, #4933E8 100%);
-  --default-background-color: #4933E8; }
+  --default-background-color: #000000; }
 
 body.section--code-enigma {
   --default-color: #4572FD;
@@ -212,6 +212,7 @@ h6 {
 }
 aside a {
   color: #fff;
+  border-color: #fff;
 }
 aside li{
   list-style: none;
