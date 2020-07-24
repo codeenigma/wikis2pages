@@ -5,9 +5,3 @@
     - name: Install Hugo
       apt:
         deb: https://github.com/gohugoio/hugo/releases/download/v0.73.0/hugo_extended_0.73.0_Linux-64bit.deb
-    
-    - name: Add start/stop script.
-      template:
-        src: hugo-daemon.sh
-        dest: /opt/hugo-daemon.sh
-        mode: 0755

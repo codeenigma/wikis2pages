@@ -5,17 +5,32 @@
 
   tasks:
 
-    - name: Clone remote wiki.
+    - name: Clone remote source wiki.
       git:
-        dest: "/home/ce-dev/deploy/live.local/content/{{ wiki.dest }}"
+        dest: "/home/ce-dev/deploy/live.local/content/{{ wiki.name }}"
         repo: "{{ wiki.src }}"
-        version: "{{ wiki.branch }}"
+        version: "{{ wiki.src_branch }}"
         accept_hostkey: yes
+
+    - name: Clone remote destination.
+      git:
+        dest: "/home/ce-dev/deploy/live.local/public/{{ wiki.name }}"
+        repo: "{{ wiki.dest }}"
+        version: "{{ wiki.dest_branch }}"
+        accept_hostkey: yes
+      when: wiki.dest is defined and wiki.dest
 
     - name: Generate config file.
       template:
         src: config.toml.j2
         dest: /home/ce-dev/deploy/live.local/config.toml
+
+    - name: Add start/stop script.
+      template:
+        src: hugo-daemon.sh.j2
+        dest: /opt/hugo-daemon.sh
+        mode: 0755
+      become: yes
 
     - name: Start hugo.
       command:

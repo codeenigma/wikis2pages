@@ -1,6 +1,15 @@
 baseURL = "{{ wiki.base_url }}"
 languageCode = "en-us"
 title = "{{ wiki.title }}"
-contentDir = "content/{{ [wiki.dest, wiki.subdir] | join('/') }}"
+contentDir = "content/{{ [wiki.name, wiki.src_subdir] | join('/') }}"
+publishDir = "public/{{ [wiki.name, wiki.dest_subdir] | join('/') }}"
 archetypeDir = "archetypes/{{ wiki.type }}"
 layoutDir = "layouts/{{ wiki.type }}"
+canonifyURLs = true
+{% if wiki.type == 'doc' %}
+[markup]
+  [markup.tableOfContents]
+    endLevel = 3
+    ordered = false
+    startLevel = 1
+{% endif %}

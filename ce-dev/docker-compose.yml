@@ -22,7 +22,7 @@ services:
     networks:
       ce_dev:
         aliases: []
-        ipv4_address: 172.18.0.63
+        ipv4_address: 172.18.0.65
     container_name: wikis2pages-hugo
     hostname: wikis2pages-hugo
     cap_add:
