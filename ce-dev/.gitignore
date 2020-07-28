@@ -1,2 +1,5 @@
 *.retry
-ansible/wikis/current.yml
+docker-compose.yml
+set-current.sh
+ansible/wikis
+ansible/current.yml

@@ -1,24 +1,14 @@
 - hosts: wikis2pages-hugo
   
-  vars_files:
-    - wikis/current.yml
-
   tasks:
+    - include_vars:
+        dir: wikis
+        name: wikis
 
-    - name: Clone remote source wiki.
-      git:
-        dest: "/home/ce-dev/deploy/live.local/content/{{ wiki.name }}"
-        repo: "{{ wiki.src }}"
-        version: "{{ wiki.src_branch }}"
-        accept_hostkey: yes
+    - include_vars: current.yml
 
-    - name: Clone remote destination.
-      git:
-        dest: "/home/ce-dev/deploy/live.local/public/{{ wiki.name }}"
-        repo: "{{ wiki.dest }}"
-        version: "{{ wiki.dest_branch }}"
-        accept_hostkey: yes
-      when: wiki.dest is defined and wiki.dest
+    - set_fact:
+        wiki: "{{ wikis[current] | combine ({ 'name': current }) }}"
 
     - name: Generate config file.
       template:

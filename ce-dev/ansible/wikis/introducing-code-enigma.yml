@@ -1,7 +1,0 @@
-wiki:
-  src: git@git.codeenigma.com:code-enigma/brand/introducing-code-enigma.wiki.git
-  dest: introducing-code-enigma.wiki
-  branch: master
-  subdir: ''
-  title: Introducing Code Enigma
-  type: basic

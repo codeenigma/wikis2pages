@@ -5,3 +5,13 @@
     - name: Install Hugo
       apt:
         deb: https://github.com/gohugoio/hugo/releases/download/v0.73.0/hugo_extended_0.73.0_Linux-64bit.deb
+    
+    - include_vars:
+        dir: wikis
+        name: wikis
+
+    - name: Generate the clone script.
+      template:
+        src: set-current.sh.j2
+        dest: /home/ce-dev/deploy/live.local/ce-dev/set-current.sh
+        mode: 0775

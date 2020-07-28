@@ -1,0 +1,43 @@
+#!/bin/sh
+# Tiny script to setup a new repo.
+
+set -e
+IFS='\n'
+
+OWN_DIR=$(dirname "$0")
+cd "$OWN_DIR" || exit 1
+OWN_DIR=$(git rev-parse --show-toplevel)
+cd "$OWN_DIR" || exit 1
+OWN_DIR=$(pwd -P)
+
+{% for name, wiki in wikis.iteritems() %}
+if [ ! -d "$OWN_DIR/content/{{ name }}" ]; then
+  git clone {{ wiki.src }} --branch {{ wiki.src_branch }} "$OWN_DIR/content/{{ name }}"
+fi
+if [ ! -d "$OWN_DIR/public/{{ name }}" ]; then
+{% if wiki.dest is defined and wiki.dest %}
+  git clone {{ wiki.dest }} --branch {{ wiki.dest_branch }} "$OWN_DIR/public/{{ name }}"
+{% else %}
+  mkdir "$OWN_DIR/public/{{ name }}"
+{% endif %}
+fi
+{% endfor %}
+
+echo "Which project do you want to use?"
+{% for name, wiki in wikis.iteritems() %}
+echo "{{ loop.index }}) {{ name }}"
+{% endfor %}
+
+read CURRENT
+
+case $CURRENT in
+{% for name, wiki in wikis.iteritems() %}
+  "{{ loop.index }}")
+    echo "current: {{ name }}" > "$OWN_DIR/ce-dev/ansible/current.yml"
+  ;;
+{% endfor %}
+  *)
+    echo "Invalid choice"
+    exit 1
+  ;;
+esac
