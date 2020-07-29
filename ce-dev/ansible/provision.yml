@@ -13,5 +13,5 @@
     - name: Generate the clone script.
       template:
         src: set-current.sh.j2
-        dest: /home/ce-dev/deploy/live.local/ce-dev/set-current.sh
+        dest: /home/ce-dev/deploy/live.local/set-current.sh
         mode: 0775

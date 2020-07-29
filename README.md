@@ -1,6 +1,6 @@
 # wiki2pages
 
-This is a static generator using Hugo to transform Gitlab's wiki pages into a static website.
+This is a static generator using Hugo to transform github/gitlab's wiki pages (or any similar markdown) into HTML.
 
 # Dependencies
 You will need https://github.com/codeenigma/ce-dev (which relies on Docker and Docker Compose).
@@ -14,31 +14,11 @@ git clone git@git.codeenigma.com:code-enigma/wikis2pages.git
 cd wikis2pages
 ```
 
-
-1. Create the initial configuration: `ce-dev init`. This will prompt you for SSH credentials in order to clone the wikis later.
-2. Start the containers: `ce-dev start`
-3. Install: `ce-dev provision`
-
 # Initialising a wiki
 
-Look in the the ce-dev/ansible/wikis for a list of available wikis.
-Example, targetting the "design-and-frontend-reference" wiki.
-
-## 1. Create a symlink
-From the root of the repo:
-```
-cd ce-dev/ansible/wikis
-ln -s ./design-and-frontend-reference.yml current.yml
-```
-
-**The symlink MUST be relative, to function within the container**
-
-## 2. Initialize the wiki configuration.
-
-Simply call `ce-dev deploy`. You can then access the generated content with `ce-dev browse`
-
-## Adding a new wiki
-Simply create a matching .yml file under ce-dev/ansible/wikis
+1. Create the needed configuration from a repository: `/bin/sh init.sh <my repo> [my branch]`. This expects the repository to contain a .wikis2pages.yml file.
+2. Pick the project you want to work on: `/bin/sh set-current.sh`
+3. Access the result with `ce-dev browse`
 
 ## Known issues and limitations
 Gitlab wikis lets you references pages in relative link by name instead of file path, and interpolates them at rendering time.
