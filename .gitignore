@@ -3,3 +3,4 @@ public
 config.toml
 content/*
 !content/.gitkeep
+set-current.sh
