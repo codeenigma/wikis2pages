@@ -1,5 +1,7 @@
 # wiki2pages
 
+[![Build Status](https://api.travis-ci.com/codeenigma/wikis2pages.svg?branch=master)](https://api.travis-ci.com/codeenigma/wikis2pages.svg?branch=master)
+
 This is a static generator using Hugo to transform github/gitlab's wiki pages (or any similar markdown) into HTML.
 
 # Dependencies
