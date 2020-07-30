@@ -14,6 +14,6 @@ PUBLIC_DIR="$OWN_DIR/public"
 for REPO in "$PUBLIC_DIR"/*; do
   cd "$REPO"
   git add .
-  git commit "Travis CI - $(date)"
+  git commit -m "Travis CI - $(date)"
   git push
 done
