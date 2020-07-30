@@ -17,4 +17,4 @@ jobs:
   include:
     - name: Demo
       script: 
-        - /bin/sh init.sh https://github.com/pm98zz-c/wikis2pages-demo.wiki.git
+        - /bin/sh init.sh https://$GITHUB_TOKEN@github.com/pm98zz-c/wikis2pages-demo.git
