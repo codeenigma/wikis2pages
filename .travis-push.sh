@@ -13,8 +13,10 @@ PUBLIC_DIR="$OWN_DIR/public"
 # for REPO in $(find "$PUBLIC_DIR" -maxdepth 1 -type d ! -name public); do
 for REPO in "$PUBLIC_DIR"/*; do
   cd "$REPO"
-  git pull
-  git add .
-  git commit -m "Travis CI - $(date)"
-  git push
+  if [ -n "$(git diff)" ] || [ -n "$( git ls-files . --exclude-standard --others)" ]; then
+    git pull
+    git add .
+    git commit -m "Travis CI - $(date)"
+    git push
+  fi
 done
