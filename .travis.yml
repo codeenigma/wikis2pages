@@ -15,9 +15,15 @@ install:
   - curl -sL https://raw.githubusercontent.com/codeenigma/ce-dev/1.x/install.sh | /bin/sh -s -- linux
 jobs:
   include:
-    - name: Demo
+    - name: Demo - wiki
       script: 
         - /bin/sh init.sh https://$GITHUB_TOKEN@github.com/codeenigma/wikis2pages-demo.git
-        - /bin/sh set-current.sh wikis2pages-travis
+        - /bin/sh set-current.sh wikis2pages-demo-wiki-travis
+        - docker exec --user ce-dev --workdir /home/ce-dev/deploy/live.local wikis2pages-hugo hugo
+        - /bin/sh .travis-push.sh
+    - name: Demo - docs
+      script: 
+        - /bin/sh init.sh https://$GITHUB_TOKEN@github.com/codeenigma/wikis2pages-demo.git
+        - /bin/sh set-current.sh wikis2pages-demo-doc-travis
         - docker exec --user ce-dev --workdir /home/ce-dev/deploy/live.local wikis2pages-hugo hugo
         - /bin/sh .travis-push.sh
