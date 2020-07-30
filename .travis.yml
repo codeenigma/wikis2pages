@@ -18,3 +18,5 @@ jobs:
     - name: Demo
       script: 
         - /bin/sh init.sh https://$GITHUB_TOKEN@github.com/codeenigma/wikis2pages-demo.git
+        - /bin/sh set-current.sh wikis2pages-travis
+        - docker exec --user ce-dev --workdir /home/ce-dev/deploy/live.local hugo

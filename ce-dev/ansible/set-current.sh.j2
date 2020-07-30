@@ -9,6 +9,7 @@ cd "$OWN_DIR" || exit 1
 OWN_DIR=$(git rev-parse --show-toplevel)
 cd "$OWN_DIR" || exit 1
 OWN_DIR=$(pwd -P)
+CURRENT_PROJECT=""
 
 {% for name, wiki in wikis.iteritems() %}
 if [ ! -d "$OWN_DIR/content/{{ name }}" ]; then
@@ -23,25 +24,34 @@ if [ ! -d "$OWN_DIR/public/{{ name }}" ]; then
 fi
 {% endfor %}
 
-echo "Which project do you want to use?"
-{% for name, wiki in wikis.iteritems() %}
-echo "{{ loop.index }}) {{ name }}"
-{% endfor %}
+prompt_from_list(){
+  echo "Which project do you want to use?"
+  {% for name, wiki in wikis.iteritems() %}
+  echo "{{ loop.index }}) {{ name }}"
+  {% endfor %}
 
-read CURRENT
+  read CURRENT
 
-case $CURRENT in
-{% for name, wiki in wikis.iteritems() %}
-  "{{ loop.index }}")
-    echo "current: {{ name }}" > "$OWN_DIR/ce-dev/ansible/current.yml"
-  ;;
-{% endfor %}
-  *)
-    echo "Invalid choice"
-    exit 1
-  ;;
-esac
+  case $CURRENT in
+  {% for name, wiki in wikis.iteritems() %}
+    "{{ loop.index }}")
+      CURRENT_PROJECT="{{ name }}"
+    ;;
+  {% endfor %}
+    *)
+      echo "Invalid choice"
+      exit 1
+    ;;
+  esac
+}
 
+if [ -n "$1" ]; then
+  CURRENT_PROJECT="$1"
+else
+  prompt_from_list
+fi
+
+echo "current: $CURRENT_PROJECT" > "$OWN_DIR/ce-dev/ansible/current.yml"
 cd "$OWN_DIR"
 ce-dev start
 ce-dev deploy
