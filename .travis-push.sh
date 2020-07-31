@@ -14,7 +14,7 @@ PUBLIC_DIR="$OWN_DIR/public"
 for REPO in "$PUBLIC_DIR"/*; do
   cd "$REPO"
   if [ -n "$(git diff)" ] || [ -n "$( git ls-files . --exclude-standard --others)" ]; then
-    git pull
+    git pull --ff-only
     git add .
     git commit -m "Travis CI - $(date)"
     git push
