@@ -16,8 +16,11 @@ for REPO in "$PUBLIC_DIR"/*; do
   cd "$REPO"
   echo "Preparing path $(pwd -P)"
   if [ -n "$(git diff)" ] || [ -n "$( git ls-files . --exclude-standard --others)" ]; then
+    echo "Pulling repo"
     git pull --ff-only
+    echo "Adding changes"
     git add .
+    echo "Committing changes"
     git commit -m "GitHub Actions - $(date)"
   fi
 done
