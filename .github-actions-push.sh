@@ -1,7 +1,7 @@
 #!/bin/sh
 # Prepare all generated content.
-# For GitHub Actions you must configure an access token on the destination repo
-# as a repository secret on the repo CI is running from.
+# For GitHub Actions the $GITHUB_TOKEN environment variable is not available so
+# the push command needs to be done in your CI, not in this script like Travis.
 
 set -e
 
