@@ -14,6 +14,7 @@ PUBLIC_DIR="$OWN_DIR/public"
 # for REPO in $(find "$PUBLIC_DIR" -maxdepth 1 -type d ! -name public); do
 for REPO in "$PUBLIC_DIR"/*; do
   cd "$REPO"
+  echo "Preparing path $(pwd -P)"
   if [ -n "$(git diff)" ] || [ -n "$( git ls-files . --exclude-standard --others)" ]; then
     git pull --ff-only
     git add .
