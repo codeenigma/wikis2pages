@@ -20,7 +20,5 @@ for REPO in "$PUBLIC_DIR"/*; do
     git pull --ff-only
     git add .
     git commit -m "GitHub Actions - $(date)"
-    echo "$(git remote -v)"
-    git push
   fi
 done
