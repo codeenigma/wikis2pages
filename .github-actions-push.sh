@@ -1,6 +1,7 @@
 #!/bin/sh
 # Prepare all generated content.
-# For GitHub Actions the push needs to be done separately.
+# For GitHub Actions you must configure an access token on the destination repo
+# as a repository secret on the repo CI is running from.
 
 set -e
 
@@ -16,11 +17,9 @@ for REPO in "$PUBLIC_DIR"/*; do
   cd "$REPO"
   echo "Preparing path $(pwd -P)"
   if [ -n "$(git diff)" ] || [ -n "$( git ls-files . --exclude-standard --others)" ]; then
-    echo "Pulling repo"
     git pull --ff-only
-    echo "Adding changes"
     git add .
-    echo "Committing changes"
     git commit -m "GitHub Actions - $(date)"
+    git push
   fi
 done
