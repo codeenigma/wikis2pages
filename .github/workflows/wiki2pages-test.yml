@@ -33,7 +33,6 @@ jobs:
 
       # Uses the ce-dev stack to run Hugo to build and deploy the demo docs
       - name: Demo documentation (build and publish)
-        if: ${{ github.event.pull_request.base.ref == '1.x' }}
         run: |
           cd
           git clone https://github.com/codeenigma/wikis2pages.git
