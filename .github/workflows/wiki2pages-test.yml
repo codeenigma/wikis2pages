@@ -1,0 +1,48 @@
+name: Run tests and build demo docs
+
+# Run this workflow every time a new commit pushed to your repository
+on: pull_request
+
+jobs:
+  # Set the job key. The key is displayed as the job name
+  # when a job name is not provided
+  run-tests:
+    # Name the Job
+    name: Run tests against demo wiki
+    # Set the type of machine to run on
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks out a copy of your repository on the ubuntu-latest machine
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Installs the ce-dev stack
+      - name: Install ce-dev
+        run: |
+          cd /tmp
+          wget https://golang.org/dl/go1.16.3.linux-amd64.tar.gz
+          sudo tar -C /usr/local -xzf go1.16.3.linux-amd64.tar.gz
+          export PATH=$PATH:/usr/local/go/bin
+          git clone https://github.com/FiloSottile/mkcert && cd mkcert
+          go build -ldflags "-X main.Version=$(git describe --tags)"
+          sudo mv ./mkcert /usr/local/bin && cd ../
+          sudo chmod +x /usr/local/bin/mkcert
+          rm -Rf mkcert
+          curl -sL https://raw.githubusercontent.com/codeenigma/ce-dev/1.x/install.sh | /bin/sh -s -- linux
+
+      # Uses the ce-dev stack to run Hugo to build and deploy the demo docs
+      - name: Demo documentation (build and publish)
+        if: ${{ github.event.pull_request.base.ref == '1.x' }}
+        run: |
+          cd
+          git clone https://github.com/codeenigma/wikis2pages.git
+          cd wikis2pages
+          /bin/bash init.sh https://${{ secrets.DOCS_GITHUB_TOKEN }}@github.com/codeenigma/wikis2pages-demo.git
+          /bin/sh set-current.sh wikis2pages-demo-wiki-travis
+          docker exec --user ce-dev --workdir /home/ce-dev/deploy/live.local wikis2pages-hugo hugo
+          /bin/sh .github-actions-push.sh
+          cd /home/runner/wikis2pages/public/wikis2pages-demo-wiki-travis
+          git remote add ci https://${{ secrets.DOCS_GITHUB_TOKEN }}@github.com/codeenigma/wikis2pages-demo.git
+          git push ci master
+        shell: bash
