@@ -13,7 +13,7 @@ CURRENT_PROJECT=""
 
 clone_current(){
   case $CURRENT_PROJECT in
-    {% for name, wiki in wikis.iteritems() %}
+    {% for name, wiki in wikis.items() %}
     "{{ name }}")
       if [ ! -d "$OWN_DIR/content/{{ name }}" ]; then
         git clone {{ wiki.src }} --branch {{ wiki.src_branch }} "$OWN_DIR/content/{{ name }}"
@@ -36,14 +36,14 @@ clone_current(){
 
 prompt_from_list(){
   echo "Which project do you want to use?"
-  {% for name, wiki in wikis.iteritems() %}
+  {% for name, wiki in wikis.items() %}
   echo "{{ loop.index }}) {{ name }}"
   {% endfor %}
 
   read CURRENT
 
   case $CURRENT in
-  {% for name, wiki in wikis.iteritems() %}
+  {% for name, wiki in wikis.items() %}
     "{{ loop.index }}")
       CURRENT_PROJECT="{{ name }}"
     ;;
