@@ -33,7 +33,7 @@ You can now run the included set-up script that configures and allows you to man
 
 If you want to just run Hugo again you can run `ce-dev deploy` any time.
 
-# Where is my HTML?
+## Where is my HTML?
 There will be a `public` directory that gets generated in the repository root and this is the root of the Hugo web server. To understand where your code will be published you need to look at your `.wiki2pages.yml` file in the target repo. For example, the name of the project in [the file for `ce-deploy` is `ce-deploy-1.x-travis`](https://github.com/codeenigma/ce-deploy/blob/1.x/.wikis2pages.yml#L1) so that will be the directory name in `public`, because this is the value that will get copied into Hugo's `config.toml` file at runtime.
 
 *However*, this will not necesarily be the URL in Hugo to access the files. That will be set according to the `base_url` variable in the same `.wiki2pages.yml` file, which is `https://codeenigma.github.io/ce-deploy-docs/1.x` in the `ce-deploy` example. The templated `hugo-daemon.sh` script, which you will find at `/opt/hugo-daemon.sh` on your `ce-dev` container, is recreated every time you run `set-current.sh` or the `ce-dev deploy` command, as you can see here:
@@ -51,7 +51,7 @@ ce-deploy-1.x-travis:
 
 Which means the code will be built in the `wiki2pages` repo under the path `public/ce-deploy-1.x-travis/1.x` and will be served by Hugo on the URL http://wikis2pages-hugo:4000/ce-deploy-docs/1.x/
 
-# Configuring ce-dev for easy browsing
+## Configuring ce-dev for easy browsing
 It's possible to make it easier to browse your generated docs by adding URLs to your `ce-dev` configuration. By default this is configured for our `ce-deploy` and `ce-provision` projects, as we have not yet devised a means to automate it:
 
 ```yaml
@@ -71,7 +71,7 @@ ce-dev browse
 
 The last command there, `ce-dev browse` should open the URLs defined automatically in your default browser.
 
-# Adding another wiki
+## Adding another wiki
 If you want to add a second wiki, just run the `init.sh` script again. For example, if I want to add a docs project for our `ce-deploy` product at version `1.x` I can just execute this command in the `wiki2pages` repo root:
 
 ```
