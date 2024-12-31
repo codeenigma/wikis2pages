@@ -5,3 +5,4 @@ content/*
 !content/.gitkeep
 set-current.sh
 ce-dev/ansible/wikis/local.yml
+.hugo_build.lock
