@@ -1,19 +1,21 @@
-version: "3.7"
 x-ce_dev:
-  version: 1.x
+  version: 2.x
   registry: localhost:5000
   project_name: wikis2pages
   urls:
-    - http://wikis2pages-hugo:4000/home
-  provision: 
+    - http://wikis2pages-hugo:4000/ce-deploy-docs/1.x
+    - http://wikis2pages-hugo:4000/ce-provision-docs/2.x
+  provision:
     - ce-dev/ansible/provision.yml
-  deploy: 
+  deploy:
     - ce-dev/ansible/deploy.yml
 services:
   hugo:
-    image: codeenigma/ce-dev-1.x:latest
+    image: codeenigma/ce-dev:2.x
     x-ce_dev: {}
     expose:
       - 4000
     volumes:
       - ../:/home/ce-dev/deploy/live.local
+    platform: linux/amd64
+    cgroup: host

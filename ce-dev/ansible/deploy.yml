@@ -1,27 +1,27 @@
+---
 - hosts: wikis2pages-hugo
-  
   tasks:
-    - include_vars:
+    - ansible.builtin.include_vars:
         dir: wikis
         name: wikis
 
-    - include_vars: current.yml
+    - ansible.builtin.include_vars: current.yml
 
-    - set_fact:
+    - ansible.builtin.set_fact:
         wiki: "{{ wikis[current] | combine ({ 'name': current }) }}"
 
     - name: Generate config file.
-      template:
+      ansible.builtin.template:
         src: config.toml.j2
         dest: /home/ce-dev/deploy/live.local/config.toml
 
     - name: Add start/stop script.
-      template:
+      ansible.builtin.template:
         src: hugo-daemon.sh.j2
         dest: /opt/hugo-daemon.sh
         mode: 0755
       become: yes
 
     - name: Start hugo.
-      command:
+      ansible.builtin.command:
         cmd: /opt/hugo-daemon.sh start --detach
