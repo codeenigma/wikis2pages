@@ -1,15 +1,52 @@
 #!/bin/sh
-# Tiny script to setup a new repo.
-
+# Script to set up a new wiki2pages project.
 set -e
-IFS='\n'
 
+# Load OS information.
+# shellcheck source=/dev/null
+. /etc/os-release
+
+usage(){
+  /usr/bin/echo 'set-current.sh [OPTIONS]'
+  /usr/bin/echo 'Set up a wiki2pages project as the one to be built.'
+  /usr/bin/echo ''
+  /usr/bin/echo 'Available options:'
+  /usr/bin/echo '--project: project to use, if not provided the script will present a list'
+  /usr/bin/echo '--no-ce-dev: do not run a ce-dev build'
+  /usr/bin/echo ''
+}
+
+# Parse options arguments.
+parse_options(){
+  while [ "${1:-}" ]; do
+    case "$1" in
+      "--project")
+          shift
+          CURRENT_PROJECT="$1"
+        ;;
+      "--no-ce-dev")
+          NO_CE_DEV="true"
+        ;;
+        *)
+        usage
+        exit 1
+        ;;
+    esac
+    shift
+  done
+}
+
+# Set default variables.
 OWN_DIR=$(dirname "$0")
 cd "$OWN_DIR" || exit 1
 OWN_DIR=$(git rev-parse --show-toplevel)
 cd "$OWN_DIR" || exit 1
 OWN_DIR=$(pwd -P)
 CURRENT_PROJECT=""
+NO_CE_DEV="false"
+
+# Parse options.
+parse_options "$@"
 
 clone_current(){
   case $CURRENT_PROJECT in
@@ -28,7 +65,7 @@ clone_current(){
     ;;
     {% endfor %}
     *)
-      echo "Invalid choice"
+      echo "Aborting! Invalid choice."
       exit 1
     ;;
   esac
@@ -55,9 +92,7 @@ prompt_from_list(){
   esac
 }
 
-if [ -n "$1" ]; then
-  CURRENT_PROJECT="$1"
-else
+if [ -z "$CURRENT_PROJECT" ]; then
   prompt_from_list
 fi
 
@@ -67,6 +102,8 @@ echo "current: $CURRENT_PROJECT" > "$OWN_DIR/ce-dev/ansible/current.yml"
 
 cd "$OWN_DIR"
 
-ce-dev start
-ce-dev provision
-ce-dev deploy
+if [ "$NO_CE_DEV" = "false" ]; then
+  ce-dev start
+  ce-dev provision
+  ce-dev deploy
+fi
