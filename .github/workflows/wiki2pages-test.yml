@@ -1,7 +1,9 @@
 name: Run tests and build demo docs
 
 # Run this workflow every time a new commit pushed to your repository
-on: pull_request
+on:
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   # Set the job key. The key is displayed as the job name
