@@ -98,6 +98,9 @@ fi
 
 clone_current
 
+if [ ! -d "$OWN_DIR/ce-dev/ansible"]; then
+  mkdir -p "$OWN_DIR/ce-dev/ansible"
+fi
 echo "current: $CURRENT_PROJECT" > "$OWN_DIR/ce-dev/ansible/current.yml"
 
 cd "$OWN_DIR"
