@@ -16,13 +16,13 @@ So assuming you have installed `ce-dev` *and* you have created a suitable `.wiki
 ```sh
 git clone git@git.codeenigma.com:code-enigma/wikis2pages.git
 cd wikis2pages
-/bin/sh init.sh <my repo> [my branch]
+/bin/sh init.sh --repo <my repo> --branch [my branch]
 ```
 
 For example, to build the documentation for `ce-provision` at version `2.x` you should use this command to initialise the documentation:
 
 ```sh
-/bin/sh init.sh git@github.com:codeenigma/ce-provision.git 2.x
+/bin/sh init.sh --repo git@github.com:codeenigma/ce-provision.git --branch 2.x
 ```
 
 You can now run the included set-up script that configures and allows you to manage multiple `wiki2pages` projects at once. It is a simple command:
@@ -31,7 +31,16 @@ You can now run the included set-up script that configures and allows you to man
 /bin/sh set-current.sh
 ```
 
+If you know the name of the project you want to set to current, you can pass it as a parameter and avoid the project list like this:
+
+```sh
+/bin/sh set-current.sh --project ce-provision-2.x
+```
+
 If you want to just run Hugo again you can run `ce-dev deploy` any time.
+
+### Suppress ce-dev
+Under certain circumstances you may not want to use `ce-dev`, for example when using CI to build documentation. In this case there is a `--no-ce-dev` flag for both the `init.sh` and `set-current.sh` scripts. Providing this flat will make the scripts create all the necessary templates but *not* run `ce-dev` itself for provisioning and deploying Hugo builds.
 
 ## Where is my HTML?
 There will be a `public` directory that gets generated in the repository root and this is the root of the Hugo web server. To understand where your code will be published you need to look at your `.wiki2pages.yml` file in the target repo. For example, the name of the project in [the file for `ce-deploy` is `ce-deploy-1.x-travis`](https://github.com/codeenigma/ce-deploy/blob/1.x/.wikis2pages.yml#L1) so that will be the directory name in `public`, because this is the value that will get copied into Hugo's `config.toml` file at runtime.
@@ -74,8 +83,8 @@ The last command there, `ce-dev browse` should open the URLs defined automatical
 ## Adding another wiki
 If you want to add a second wiki, just run the `init.sh` script again. For example, if I want to add a docs project for our `ce-deploy` product at version `1.x` I can just execute this command in the `wiki2pages` repo root:
 
-```
-/bin/sh init.sh git@github.com:codeenigma/ce-deploy.git 1.x
+```sh
+/bin/sh init.sh --repo git@github.com:codeenigma/ce-deploy.git --branch 1.x
 ```
 
 Once I have run that command, if I run `set-current.sh` again, as above, I will have my `ce-deploy` docs in the list of options.
