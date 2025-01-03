@@ -15,5 +15,5 @@
     - name: Generate the clone script.
       ansible.builtin.template:
         src: set-current.sh.j2
-        dest: /home/ce-dev/deploy/live.local/set-current.sh
+        dest: "{{ wiki2pages_build_path | default('/home/ce-dev/deploy/live.local') }}/set-current.sh"
         mode: 0775

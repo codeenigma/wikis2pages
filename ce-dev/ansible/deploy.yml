@@ -13,7 +13,7 @@
     - name: Generate config file.
       ansible.builtin.template:
         src: config.toml.j2
-        dest: /home/ce-dev/deploy/live.local/config.toml
+        dest: "{{ wiki2pages_build_path | default('/home/ce-dev/deploy/live.local') }}/config.toml"
 
     - name: Add start/stop script.
       ansible.builtin.template:
