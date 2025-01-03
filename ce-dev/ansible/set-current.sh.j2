@@ -86,7 +86,7 @@ prompt_from_list(){
     ;;
   {% endfor %}
     *)
-      echo "Invalid choice"
+      /usr/bin/echo "Invalid choice"
       exit 1
     ;;
   esac
@@ -96,17 +96,26 @@ if [ -z "$CURRENT_PROJECT" ]; then
   prompt_from_list
 fi
 
+/usr/bin/echo "-------------------------------------------------"
 clone_current
+/usr/bin/echo "-------------------------------------------------"
 
 if [ ! -d "$OWN_DIR/ce-dev/ansible" ]; then
+  /usr/bin/echo "Creating directory $OWN_DIR/ce-dev/ansible"
   mkdir -p "$OWN_DIR/ce-dev/ansible"
+  /usr/bin/echo "-------------------------------------------------"
 fi
-echo "current: $CURRENT_PROJECT" > "$OWN_DIR/ce-dev/ansible/current.yml"
+/usr/bin/echo "Creating file at $OWN_DIR/ce-dev/ansible/current.yml"
+/usr/bin/echo "current: $CURRENT_PROJECT" > "$OWN_DIR/ce-dev/ansible/current.yml"
 
 cd "$OWN_DIR"
 
 if [ "$NO_CE_DEV" = "false" ]; then
+  /usr/bin/echo "-------------------------------------------------"
+  /usr/bin/echo "Starting ce-dev"
   ce-dev start
   ce-dev provision
   ce-dev deploy
 fi
+
+/usr/bin/echo "-------------------------------------------------"
