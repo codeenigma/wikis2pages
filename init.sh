@@ -54,9 +54,9 @@ if [ -z "$CONFIG_REPO" ]; then
 fi
 
 OWN_DIR=$(/usr/bin/dirname "$0")
-/usr/bin/cd "$OWN_DIR" || exit 1
+cd "$OWN_DIR" || exit 1
 OWN_DIR=$(/usr/bin/git rev-parse --show-toplevel)
-/usr/bin/cd "$OWN_DIR" || exit 1
+cd "$OWN_DIR" || exit 1
 OWN_DIR=$(/usr/bin/pwd -P)
 WIKIS_CONFIG_DIR="$OWN_DIR/ce-dev/ansible/wikis"
 WORK_DIR=$(/usr/bin/mktemp -d)
