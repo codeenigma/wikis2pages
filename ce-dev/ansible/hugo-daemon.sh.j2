@@ -20,7 +20,7 @@ fi
 
 # Start.
 cd /home/ce-dev/deploy/live.local || exit 1
-HUGO_CMD="/usr/local/bin/hugo serve --baseURL http://wikis2pages-hugo:4000{{ wiki.base_url | urlsplit('path') }} --bind 0.0.0.0 --port 4000"
+HUGO_CMD="/usr/local/bin/hugo serve --renderToDisk --baseURL http://wikis2pages-hugo:4000{{ wiki.base_url | urlsplit('path') }} --bind 0.0.0.0 --port 4000"
 if [ "$2" = "--detach" ]; then
   $HUGO_CMD &
 else
