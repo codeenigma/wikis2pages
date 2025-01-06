@@ -10,6 +10,9 @@
     - ansible.builtin.set_fact:
         wiki: "{{ wikis[current] | combine ({ 'name': current }) }}"
 
+    - ansible.builtin.set_fact:
+        launch_hugo_server: "{{ launch_hugo_server | default(true) }}"
+
     - name: Generate config file.
       ansible.builtin.template:
         src: config.toml.j2
@@ -20,8 +23,10 @@
         src: hugo-daemon.sh.j2
         dest: /opt/hugo-daemon.sh
         mode: 0755
-      become: yes
+      become: true
+      when: launch_hugo_server
 
     - name: Start hugo.
       ansible.builtin.command:
         cmd: /opt/hugo-daemon.sh start --detach
+      when: launch_hugo_server
