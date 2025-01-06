@@ -77,7 +77,7 @@ prompt_from_list(){
   echo "{{ loop.index }}) {{ name }}"
   {% endfor %}
 
-  read CURRENT
+  read -r CURRENT
 
   case $CURRENT in
   {% for name, wiki in wikis.items() %}
@@ -92,8 +92,11 @@ prompt_from_list(){
   esac
 }
 
+/usr/bin/echo "-------------------------------------------------"
 if [ -z "$CURRENT_PROJECT" ]; then
   prompt_from_list
+else
+  echo "Setting up $CURRENT_PROJECT as the current project"
 fi
 
 /usr/bin/echo "-------------------------------------------------"
