@@ -4,5 +4,6 @@
   <title>{{ block "title" . }}{{ with .Params.Title }}{{ . }} | {{ end }}{{ .Site.Title }}{{ end }}</title>
   <meta name="viewport" content="width=device-width,minimum-scale=1">
   {{ $style := resources.Get "css/main.scss" | css.Sass | resources.Minify | resources.Fingerprint }}
-  <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+  {{ $href := replace $style.Permalink .Site.BaseURL "/" }}
+  <link rel="stylesheet" href="{{ $href }}">
 </head>
