@@ -58,9 +58,7 @@ jobs:
           /usr/bin/su - ce-dev -c "cd /home/ce-dev/build/wiki2pages && hugo"
 
       - name: Publish documentation
-        env:
-          GITHUB_TOKEN: ${{ secrets.DOCS_GITHUB_TOKEN }}
         run: |
           /usr/bin/su - ce-dev -c "cd /home/ce-dev/build/wiki2pages && /bin/sh /home/ce-dev/build/wiki2pages/.github-actions-push.sh"
-          /usr/bin/su - ce-dev -c "cd /home/ce-dev/build/wiki2pages/public/wikis2pages-demo-wiki-travis/docs/wiki && /usr/bin/git remote add ci https://github.com/codeenigma/wikis2pages-demo.git"
+          /usr/bin/su - ce-dev -c "cd /home/ce-dev/build/wiki2pages/public/wikis2pages-demo-wiki-travis/docs/wiki && /usr/bin/git remote add ci https://${{ secrets.DOCS_GITHUB_TOKEN }}@github.com/codeenigma/wikis2pages-demo.git"
           /usr/bin/su - ce-dev -c "cd /home/ce-dev/build/wiki2pages/public/wikis2pages-demo-wiki-travis/docs/wiki && /usr/bin/git push ci master"
