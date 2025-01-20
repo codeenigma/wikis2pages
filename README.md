@@ -4,17 +4,33 @@ This is a static generator using Hugo to transform GitHub/GitLab's wiki pages (o
 ## Dependencies
 You will need to install [`ce-dev`](https://github.com/codeenigma/ce-dev) (which relies on Docker and Docker Compose).
 
-## Initial setup and first wiki
-There is an example wiki here you can copy:
+Each repository you want to build a docs website for will also need to have a `.wiki2pages.yml` file in the root, which contains the variables Ansible needs to generate Hugo's config file (which you can see at `ce-dev/ansible/config.toml.j2`). There is an example wiki here you can copy:
 
 * https://github.com/codeenigma/wikis2pages-demo
 
-Note in particular [the `.wikis2pages.yml` file in the repo root](https://github.com/codeenigma/wikis2pages-demo/blob/master/.wikis2pages.yml). Any repository that contains markdown files you wish to turn into HTML must have a `.wikis2pages.yml` file like this in the root. [See the `ce-provision` wiki config for another example.](https://github.com/codeenigma/ce-provision/blob/2.x/.wikis2pages.yml)
+Here is the annotated `ce-provision` YAML file for reference:
 
-So assuming you have installed `ce-dev` *and* you have created a suitable `.wiki2pages.yml` config file in your target repository, you can fetch `wiki2pages` itself. In a suitable location on your computer:
+```yaml
+ce-provision-2.x: # path to project within the content and public directories
+  src: https://github.com/codeenigma/ce-provision.git # repository containing the Markdown files to convert
+  src_branch: 2.x # branch of the repo with the Markdown
+  src_subdir: 'docs' # subdirectory of the repo where the Markdown is kept (if applicable)
+  # This step requires a 'git push', we script the adding of the token for pushing in our CI (GitHub Actions in this case) directly
+  dest: https://github.com/codeenigma/ce-provision-docs.git # destination repo for the generated HTML
+  dest_branch: master # branch of the target repo to push the HTML to
+  dest_subdir: 2.x # subdirectory of the target repo to save the generated HTML files into (if applicable)
+  title: ce-provision # the main page title of the HTML pages
+  type: doc # the site 'type' (currently only supports 'doc' or an empty string, 'doc' enables automatic sidebar building)
+  base_url: https://codeenigma.github.io/ce-provision-docs/2.x # the eventual URL of the published HTML website, including the 'dest_subdir' if you set one
+```
+
+Once you have `ce-dev` installed and your repo has the above file, you're ready to get started.
+
+## Installing and running wiki2pages
+Assuming you have installed `ce-dev` *and* you have created a suitable `.wiki2pages.yml` config file in your target repository pointing to a valid set of Markdown pages to convert to HTML, you can fetch `wiki2pages` itself. In a suitable location on your computer:
 
 ```sh
-git clone git@git.codeenigma.com:code-enigma/wikis2pages.git
+git clone git@github.com:codeenigma/wikis2pages.git
 cd wikis2pages
 /bin/sh init.sh --repo <my repo> --branch [my branch]
 ```
@@ -43,7 +59,7 @@ If you want to just run Hugo again you can run `ce-dev deploy` any time.
 At this point Hugo's web server will have started on the target container and you should be able to browse your documentation website. See the easy browsing section below for the usage of `ce-dev browse`.
 
 ### Where is my HTML?
-There will be a `public` directory that gets generated in the repository root and this is the root of the Hugo web server. To understand where your code will be published you need to look at your `.wiki2pages.yml` file in the target repo. For example, the name of the project in [the file for `ce-deploy` is `ce-deploy-1.x-travis`](https://github.com/codeenigma/ce-deploy/blob/1.x/.wikis2pages.yml#L1) so that will be the directory name in `public`, because this is the value that will get copied into Hugo's `config.toml` file at runtime.
+There will be a `public` directory that gets generated in the repository root and this is the root of the Hugo web server. To understand where your code will be published you need to look at your `.wiki2pages.yml` file in the target repo. For example, the name of the project in [the file for `ce-deploy` is `ce-deploy-1.x`](https://github.com/codeenigma/ce-deploy/blob/1.x/.wikis2pages.yml#L1) so that will be the directory name in `public`, because this is the value that will get copied into Hugo's `config.toml` file at runtime.
 
 *However*, this will not necesarily be the URL in Hugo to access the files. That will be set according to the `base_url` variable in the same `.wiki2pages.yml` file, which is `https://codeenigma.github.io/ce-deploy-docs/1.x` in the `ce-deploy` example. The templated `hugo-daemon.sh` script, which you will find at `/opt/hugo-daemon.sh` on your `ce-dev` container, is recreated every time you run `set-current.sh` or the `ce-dev deploy` command, as you can see here:
 * https://github.com/codeenigma/wikis2pages/blob/master/ce-dev/ansible/deploy.yml
@@ -53,12 +69,12 @@ And [we can see in the template for the Hugo daemon script](https://github.com/c
 So to recap, the `ce-deploy` config file in the repo root, `.wiki2pages.yml`, looks like this:
 
 ```yaml
-ce-deploy-1.x-travis:
+ce-deploy-1.x:
   # other vars here...
   base_url: https://codeenigma.github.io/ce-deploy-docs/1.x
 ```
 
-Which means the code will be built in the `wiki2pages` repo under the path `public/ce-deploy-1.x-travis/1.x` and will be served by Hugo on the URL http://wikis2pages-hugo:4000/ce-deploy-docs/1.x/
+Which means the code will be built in the `wiki2pages` repo under the path `public/ce-deploy-1.x/1.x` and will be served by Hugo on the URL http://wikis2pages-hugo:4000/ce-deploy-docs/1.x/
 
 ### Configuring ce-dev for easy browsing
 It's possible to make it easier to browse your generated docs by adding URLs to your `ce-dev` configuration. By default this is configured for our `ce-deploy` and `ce-provision` projects, as we have not yet devised a means to automate it:
