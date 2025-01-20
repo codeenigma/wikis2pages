@@ -1,3 +1,3 @@
 <aside class="menu">
-{{ (print "_Sidebar.md" | readFile) | markdownify }}
+{{ (print "_Sidebar.md" | readFile) | .Page.RenderString }}
 </aside>
