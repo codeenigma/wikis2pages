@@ -6,10 +6,13 @@ publishDir = "public/{{ [wiki.name, wiki.dest_subdir] | join('/') }}"
 archetypeDir = "archetypes/{{ wiki.type }}"
 layoutDir = "layouts/{{ wiki.type }}"
 canonifyURLs = true
-{% if wiki.type == 'doc' %}
 [markup]
+{% if wiki.type == 'doc' %}
   [markup.tableOfContents]
     endLevel = 3
     ordered = false
     startLevel = 1
 {% endif %}
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
